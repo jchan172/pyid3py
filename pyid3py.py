@@ -151,6 +151,8 @@ def main(argv=None):
         print >> sys.stderr, "1 file processed."
     elif suc>1:
         print >> sys.stderr, "%d files processed." % suc
+    if opt_dryrun:
+        print >> sys.stderr, "It seems to work well"
     return 0
 
 if __name__ == "__main__":
