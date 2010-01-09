@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os, sys, getopt
-sys.path.append("./lib")
+sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 import pinyin
 from eyeD3.tag import *;
 
@@ -8,6 +10,7 @@ FIDS = [("TSOP", Tag.getArtist, "Sort Artist"),
         ("TSOA", Tag.getAlbum , "Sort Album"),
         ("TSOT", Tag.getTitle , "Sort Name")]
 
+sys_encoding = sys.getfilesystemencoding()
 help_message = '''
 pyid3py.py [OPTION] TARGET
 
@@ -67,27 +70,29 @@ def deal_with_mp3(file_name, quiet, overwrite, dryrun):
 
     if tag:
         modified = False
-        print_str = ""
+        print_str = ''
         for fd in FIDS:
             text = fd[1](tag)
-            if (overwrite or not tag.frames[fd[0]]) and text and contain_cjk_char(text):
+            if (overwrite or not tag.frames[fd[0]]) \
+                    and text and contain_cjk_char(text):
                 value = pinyin.hanzi2pinyin(text)
                 try:
                     tag.setTextFrame(fd[0], value)
                     modified = True
-                    print_str += "\t%s: %s (%s)\n" % (fd[2], value.encode('utf-8'), text.encode('utf-8'))
+                    print_str += "\t%s: %s (%s)\n" % (fd[2], value, text)
                 except FrameException, ex:
                     pass
 
         if modified:
             try:
-                if dryrun or tag.update(36):
-                    if not quiet:
-                        print file_name
-                        print print_str
-                return True
+                if not (dryrun or tag.update(36)):
+                    return False
             except:
                 return False
+            if not quiet:
+                print file_name
+                print print_str.encode(sys_encoding)
+            return True
     return False
 
 def main(argv=None):
@@ -99,7 +104,9 @@ def main(argv=None):
     if argv is None: argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "hnrqf", ["help", "recursive", "quiet", "dry-run"])
+            opts, args = \
+                getopt.getopt(argv[1:], \
+                    "hnrqf", ["help", "recursive", "quiet", "dry-run"])
         except getopt.error, msg:
             raise Usage(msg)
 
@@ -146,7 +153,7 @@ def main(argv=None):
             return 2
 
     if suc==0:
-        print >> sys.stderr, "No file processed."
+        print >> sys.stderror, "No file processed."
     elif suc==1:
         print >> sys.stderr, "1 file processed."
     elif suc>1:
