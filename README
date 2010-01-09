@@ -9,3 +9,5 @@ Usage:
         -n, --dry-run     don't actually add fileds, just show how it works.
         -h, --help        show this messge.
         -f, --force       add fileds no matter whether the info exist.
+
+Use it on your own risk.
