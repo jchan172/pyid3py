@@ -10,6 +10,7 @@ Usage:
         -h, --help        show this messge.
         -f, --force       add fileds no matter whether the info exist.
 
-[![](http://farm4.static.flickr.com/3447/3378092101_40a62a04b2_m.jpg)](http://farm4.static.flickr.com/3447/3378092101_b064d8e339_o.jpg)
+One picture is more than 1000 words.
+[![](http://farm5.static.flickr.com/4055/4259732243_1a206f584d_o.png)](http://farm5.static.flickr.com/4055/4259732243_1a206f584d_o.png)
 
 Use it on your own risk.
