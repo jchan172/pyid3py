@@ -2,7 +2,7 @@ Usage:
         pyid3py.py [OPTION] TARGET
 
         Convert Chinese characters in ID3 to PinYin,
-		and also *update* the ID3 tag version to v2.4.
+        and also *update* the ID3 tag version to v2.4.
 
         -r, --recursive   act on directory recursively.
         -q, --quiet       print nothing except the result.
