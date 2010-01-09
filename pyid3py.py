@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 import os, sys, getopt
+sys.path.append("./lib")
 import pinyin
-# from eyeD3 import *;
 from eyeD3.tag import *;
-# from eyeD3.frames import *;
-# from eyeD3.utils import *;
 
 FIDS = [("TSOP", Tag.getArtist, "Sort Artist"),
         ("TSOA", Tag.getAlbum , "Sort Album"),
@@ -148,11 +146,11 @@ def main(argv=None):
             return 2
 
     if suc==0:
-        print >> std.stderr, "No file processed."
+        print >> sys.stderr, "No file processed."
     elif suc==1:
-        print >> std.stderr, "1 file processed."
+        print >> sys.stderr, "1 file processed."
     elif suc>1:
-        print >> std.stderr, "%d files processed." % suc
+        print >> sys.stderr, "%d files processed." % suc
     return 0
 
 if __name__ == "__main__":
