@@ -153,7 +153,7 @@ def main(argv=None):
             return 2
 
     if suc==0:
-        print >> sys.stderror, "No file processed."
+        print >> sys.stderr, "No file processed."
     elif suc==1:
         print >> sys.stderr, "1 file processed."
     elif suc>1:
