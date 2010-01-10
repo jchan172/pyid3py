@@ -68,24 +68,41 @@ def deal_with_mp3(file_name, quiet, overwrite, dryrun):
     except:
         return False
 
+    # print tag
     if tag:
         modified = False
         print_str = ''
         for fd in FIDS:
             text = fd[1](tag)
+            # print text
             if (overwrite or not tag.frames[fd[0]]) \
                     and text and contain_cjk_char(text):
                 value = pinyin.hanzi2pinyin(text)
                 try:
                     tag.setTextFrame(fd[0], value)
                     modified = True
-                    print_str += "\t%s: %s (%s)\n" % (fd[2], value, text)
+                    print_str += "\t%s: %s (%s)\n" % (fd[2], value,
+    text)
+                    # print print_str
                 except FrameException, ex:
                     pass
 
         if modified:
+            tag_version = tag.getVersion()
+            if tag_version == ID3_V2_4:
+                tag.setTextEncoding(UTF_8_ENCODING)
+                # keep the ID3 v2.4 version
+                update_version = 0
+            else:
+                update_version = ID3_V2_4
+                # v1.x supports ISO-8895 only
+                if tag_version & ID3_V1:
+                    tag.setTextEncoding(LATIN1_ENCODING)
+                else:
+                    # UTF-8 is not supported by v2.3
+                    tag.setTextEncoding(UTF_16_ENCODING)
             try:
-                if not (dryrun or tag.update(36)):
+                if not (dryrun or tag.update(update_version)):
                     return False
             except:
                 return False
