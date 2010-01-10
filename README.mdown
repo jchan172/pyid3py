@@ -10,8 +10,12 @@ Usage:
         -h, --help        show this messge.
         -f, --force       add fileds no matter whether the info exist.
 
-One picture is more than 1000 words.
+One picture is more than 1000 words:
 
 [![](http://farm5.static.flickr.com/4048/4260499120_3c65d2ac30_o.png)](http://farm5.static.flickr.com/4048/4260499120_3c65d2ac30_o.png)
+
+Requirement:
+        apn (included): http://github.com/jjgod/apn/
+        eyeD3 (included): http://eyed3.nicfit.net/
 
 Use it on your own risk.
