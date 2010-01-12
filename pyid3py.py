@@ -92,7 +92,7 @@ def deal_with_mp3(file_name, quiet, overwrite, dryrun):
             if tag_version == ID3_V2_4:
                 tag.setTextEncoding(UTF_8_ENCODING)
                 # keep the ID3 v2.4 version
-                update_version = 0
+                update_version = ID3_CURRENT_VERSION
             else:
                 update_version = ID3_V2_4
                 # v1.x supports ISO-8895 only
