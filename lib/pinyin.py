@@ -6795,16 +6795,4 @@ PinYinDict.update({
 '》':('',),
 })
 
-PinYinDict = dict([( ord(k.decode('utf-8')), v[len(v)-1].decode('utf-8')) for k, v in PinYinDict.items()])
-
-def hanzi2pinyin(hanzi):
-    """ hanzi should be unicode string"""
-    pinyin = ''
-    for char in hanzi:
-        char_ord = ord(char)
-        if char_ord in PinYinDict:
-            pinyin += PinYinDict[char_ord].capitalize()
-        else:
-            pinyin += char
-    return pinyin
-
+PinYinDict = dict([( ord(k.decode('utf-8')), v) for k, v in PinYinDict.items()])
