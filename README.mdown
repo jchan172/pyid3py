@@ -1,5 +1,3 @@
-**This Script will cause artwork lose. Please DON'T use it until I fix the problem**
-
 Usage:
         pyid3py.py [OPTION] TARGET
 
@@ -8,9 +6,10 @@ Usage:
 
         -r, --recursive   act on directory recursively.
         -q, --quiet       print nothing except the result.
+        -p, --preferred   don't prompt. prefer default pronunciation for Hanzi with multi-pronunciation
+        -f, --force       add fileds no matter whether the info exist.
         -n, --dry-run     don't actually add fileds, just show how it works.
         -h, --help        show this messge.
-        -f, --force       add fileds no matter whether the info exist.
 
 One picture is more than 1000 words:
 
