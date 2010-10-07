@@ -85,7 +85,7 @@ def prompt(text, candidates):
         return _cookies[text]
     result = ''
     for i, c in enumerate(candidates):
-        if type(c) is str:
+        if type(c) in [str, unicode]:
             result +=c
         elif type(c) is tuple:
             while True:
