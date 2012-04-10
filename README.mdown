@@ -1,22 +1,21 @@
-Usage:
-        pyid3py.py [OPTION] TARGET
+Requirements
+============
+    pip install eyeD3
 
-        Convert Chinese characters in ID3 to PinYin,
-        and also *update* the ID3 tag version to v2.4.
+Usage
+======
+    pyid3py.py [OPTION] TARGET
 
-        -r, --recursive   act on directory recursively.
-        -q, --quiet       print nothing except the result.
-        -p, --preferred   don't prompt. prefer default pronunciation for Hanzi with multi-pronunciation
-        -f, --force       add fileds no matter whether the info exist.
-        -n, --dry-run     don't actually add fileds, just show how it works.
-        -h, --help        show this messge.
+    Convert Chinese characters in ID3 to PinYin
+
+    -r, --recursive   act on directory recursively.
+    -p, --preferred   don't prompt. prefer default pronunciation for Hanzi with multi-pronunciation
+    -f, --force       add fileds no matter whether the info exist.
+    -n, --dry-run     don't actually add fileds, just show how it works.
+    -h, --help        show this messge.
 
 One picture is more than 1000 words:
 
 [![](http://farm5.static.flickr.com/4048/4260499120_3c65d2ac30_o.png)](http://farm5.static.flickr.com/4048/4260499120_3c65d2ac30_o.png)
 
-Requirement:
-        apn (included): http://github.com/jjgod/apn/
-        eyeD3 (included): http://eyed3.nicfit.net/
-
-Use it on your own risk.
+***Use it on your own risk.**
