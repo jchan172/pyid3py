@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, getopt, glob
+import os
+import sys
+import getopt
+import glob
 from pinyin import PINYIN_DICT
-from eyeD3.tag import Mp3AudioFile, FrameException, InvalidAudioFormatException
+from eyeD3.tag import Mp3AudioFile, \
+    FrameException, \
+    InvalidAudioFormatException
 
-# sys_encoding = sys.getfilesystemencoding()
 HELP_MESSAGE = '''
 pyid3py.py [OPTION] TARGET
 
@@ -13,11 +17,13 @@ Convert Chinese characters in ID3 to PinYin,
 and also *update* the ID3 tag version to v2.4.
 
 -r, --recursive   act on directory recursively.
--p, --preferred   don't prompt. prefer default pronunciation for Hanzi with multi-pronunciation
+-p, --preferred   don't prompt. prefer default pronunciation
+                  for Hanzi with multi-pronunciation
 -f, --force       add fileds no matter whether the info exist.
 -n, --dry-run     don't actually add fileds, just show how it works.
 -h, --help        show this messge.
 '''
+
 
 def is_cjk_char(x):
     x = ord(x)
@@ -42,21 +48,28 @@ def is_cjk_char(x):
         return True
     return False
 
+
 def contain_cjk_char(text):
     for char in text:
         if is_cjk_char(char):
             return True
     return False
 
+
 def hanzi2pinyin(text):
-    """ text should be unicode string"""
+    """
+
+    Convert Chinese characters in `text' to pinyin.
+    `text' should be unicode string.
+
+    """
     pinyin_seq = []
     for char in text:
         if char in PINYIN_DICT:
             pinyin = PINYIN_DICT[char]
             if isinstance(pinyin, basestring):
                 pinyin_seq.append(pinyin)
-            elif len(pinyin)==1:
+            elif len(pinyin) == 1:
                 pinyin_seq.append(pinyin[0])
             else:
                 pinyin_seq.append(pinyin)
@@ -64,7 +77,13 @@ def hanzi2pinyin(text):
             pinyin_seq += (char,)
     return pinyin_seq
 
+
 def prompt(text, cookies={}):
+    """
+
+    Prompt when multi-pronunciation Chinese characters in `text' occur.
+
+    """
     if text in cookies:
         return cookies[text]
     pinyin = ''
@@ -73,12 +92,17 @@ def prompt(text, cookies={}):
             pinyin += candidates
         elif isinstance(candidates, (tuple, list, set)):
             while True:
-                print '  >>'+text[0:i] + '[' + text[i:i+1] + ']' + text[i+1:],
+                ps = '  >> %s[%s]%s { %s } ' % \
+                     (text[0:i], text[i:i + 1], text[i + 1:],
+                      '  '.join('%d.%s' % (j + 1, c)
+                                for j, c in enumerate(candidates)))
                 try:
-                    choice = int(raw_input('{ '+ '  '.join(["%d.%s" % (j+1, c) for j, c in enumerate(candidates)])+' } '))-1
+                    choice = int(raw_input(ps.encode('utf-8'))) - 1
                 except ValueError:
+                    print 'value '
                     continue
                 except EOFError:
+                    print 'eof'
                     print
                     continue
                 if choice in range(len(candidates)):
@@ -87,9 +111,13 @@ def prompt(text, cookies={}):
     cookies[text] = pinyin
     return pinyin
 
+
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv[1:], "hnrfp", ["help", "recursive", "dry-run", 'force', 'preferred'])
+        opts, args = getopt.getopt(argv[1:], "hnrfp",
+                                   ["help", "recursive",
+                                    "dry-run", 'force',
+                                    'preferred'])
     except getopt.error as err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
         print >> sys.stderr, "\t for help use --help"
@@ -104,21 +132,25 @@ def main(argv):
     preferred = opt_func('-p', '--preferred')
     cookies = {}
     processed = []
+
     def handle(file):
         print file
         try:
             tag = Mp3AudioFile(file).getTag()
         except InvalidAudioFormatException as err:
-            print >>sys.stderr, '  %s: %s' % (os.path.basename(file), err.message)
+            print >>sys.stderr, '  %s: %s' % \
+                (os.path.basename(file), err.message)
             return
         modified = False
         for text, sort_frame, title in ((tag.getArtist(), 'TSOP', "Artist:"),
                                         (tag.getAlbum(),  'TSOA', "Album :"),
                                         (tag.getTitle(),  'TSOT', "Name  :")):
             print ' ', title, text
-            if (force or not tag.frames[sort_frame]) and text and contain_cjk_char(text):
+            if (force or not tag.frames[sort_frame]) and \
+               text and contain_cjk_char(text):
                 if preferred:
-                    pinyin = ''.join(c[0] if isinstance(c, (set, tuple, list)) else c for c in hanzi2pinyin(text))
+                    pinyin = ''.join(c[0] if isinstance(c, tuple) else c
+                                     for c in hanzi2pinyin(text))
                 else:
                     pinyin = prompt(text, cookies)
                     try:
@@ -131,9 +163,12 @@ def main(argv):
             if not dryrun:
                 tag.update()
         print
+
     def batch(pathes):
-        [handle(path) for path in pathes if os.path.isfile(path) and path.lower().endswith('.mp3')]
-    for path in reduce(lambda x, y: x+y, map(glob.glob, args)):
+        [handle(path) for path in pathes
+         if os.path.isfile(path) and path.lower().endswith('.mp3')]
+
+    for path in reduce(lambda x, y: x + y, map(glob.glob, args)):
         try:
             if os.path.isfile(path):
                 handle(path)
@@ -150,11 +185,11 @@ def main(argv):
             print
             break
     success = len(processed)
-    if success==0:
+    if success == 0:
         print >> sys.stderr, "No file processed."
-    elif success==1:
+    elif success == 1:
         print >> sys.stderr, "1 file processed."
-    elif success>1:
+    elif success > 1:
         print >> sys.stderr, "%d files processed." % success
     if dryrun:
         print >> sys.stderr, "It seems to work well"
