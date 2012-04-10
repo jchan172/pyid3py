@@ -1,15 +1,18 @@
 Requirements
 ============
+
     pip install eyeD3
 
 Usage
 ======
+
     pyid3py.py [OPTION] TARGET
 
-    Convert Chinese characters in ID3 to PinYin
+    Convert Chinese characters in ID3 to PinYin.
 
     -r, --recursive   act on directory recursively.
-    -p, --preferred   don't prompt. prefer default pronunciation for Hanzi with multi-pronunciation
+    -p, --preferred   don't prompt. prefer default pronunciation
+                      for Hanzi with multi-pronunciation.
     -f, --force       add fileds no matter whether the info exist.
     -n, --dry-run     don't actually add fileds, just show how it works.
     -h, --help        show this messge.
