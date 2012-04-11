@@ -133,13 +133,12 @@ def main(argv):
     processed = []
 
     def handle(file):
-        print file
         try:
             tag = Mp3AudioFile(file).getTag()
-        except InvalidAudioFormatException as err:
-            print >>sys.stderr, '  %s: %s' % \
-                (os.path.basename(file), err.message)
+        except Exception:
+            print >>sys.stderr, 'Fail to open: %s' % file
             return
+        print file
         modified = False
         for text, sort_frame, title in ((tag.getArtist(), 'TSOP', "Artist:"),
                                         (tag.getAlbum(),  'TSOA', "Album :"),
@@ -160,7 +159,11 @@ def main(argv):
         if modified:
             processed.append(file)
             if not dryrun:
-                tag.update()
+                try:
+                    tag.update()
+                except Exception:
+                    processed.pop()
+                    print >> sys.stderr, 'Fail to update: %s' % file
         print
 
     def batch(pathes):
