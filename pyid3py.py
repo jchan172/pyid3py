@@ -116,7 +116,8 @@ def main(argv):
                                     "dry-run", 'force',
                                     'preferred'])
     except getopt.error as err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+        print >> sys.stderr, os.path.basename(sys.argv[0]) + \
+            ": " + str(err.msg)
         print >> sys.stderr, "\t for help use --help"
         sys.exit(1)
     opt_func = lambda x, y: ((x, '') in opts) or ((y, '') in opts)
