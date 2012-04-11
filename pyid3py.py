@@ -89,7 +89,7 @@ def prompt(text, cookies={}):
     for i, candidates in enumerate(hanzi2pinyin(text)):
         if isinstance(candidates, basestring):
             pinyin += candidates
-        elif isinstance(candidates, (tuple, list, set)):
+        elif isinstance(candidates, tuple):
             while True:
                 ps = '  >> %s[%s]%s { %s } ' % \
                      (text[0:i], text[i:i + 1], text[i + 1:],
