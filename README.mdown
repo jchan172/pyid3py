@@ -15,7 +15,7 @@ Usage
 
     pyid3py.py [OPTION] TARGET
 
-    Convert Chinese characters in ID3 to PinYin.
+    Convert Chinese characters in mp3 ID3 to PinYin.
 
     -r, --recursive   act on directory recursively.
     -p, --preferred   don't prompt. prefer default pronunciation

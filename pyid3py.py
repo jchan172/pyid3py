@@ -13,8 +13,7 @@ from eyeD3.tag import Mp3AudioFile, \
 HELP_MESSAGE = '''
 pyid3py.py [OPTION] TARGET
 
-Convert Chinese characters in ID3 to PinYin,
-and also *update* the ID3 tag version to v2.4.
+Convert Chinese characters in mp3 ID3 to PinYin.
 
 -r, --recursive   act on directory recursively.
 -p, --preferred   don't prompt. prefer default pronunciation
