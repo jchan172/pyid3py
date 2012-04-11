@@ -120,14 +120,15 @@ def main(argv):
             ": " + str(err.msg)
         print >> sys.stderr, "\t for help use --help"
         sys.exit(1)
-    opt_func = lambda x, y: ((x, '') in opts) or ((y, '') in opts)
-    if opt_func('-h', '--help'):
+    opts = [k for k,v in opts]
+    contains = lambda x, y: x in opts or y in opts
+    if contains('-h', '--help'):
         print HELP_MESSAGE
         sys.exit(0)
-    recursive = opt_func("-r", "--recursive")
-    force = opt_func("-f", "--force")
-    dryrun = opt_func("-n", "--dry-run")
-    preferred = opt_func('-p', '--preferred')
+    recursive = contains("-r", "--recursive")
+    force = contains("-f", "--force")
+    dryrun = contains("-n", "--dry-run")
+    preferred = contains('-p', '--preferred')
     cookies = {}
     processed = []
 
