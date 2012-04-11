@@ -98,10 +98,8 @@ def prompt(text, cookies={}):
                 try:
                     choice = int(raw_input(ps.encode('utf-8'))) - 1
                 except ValueError:
-                    print 'value '
                     continue
                 except EOFError:
-                    print 'eof'
                     print
                     continue
                 if choice in range(len(candidates)):
