@@ -179,7 +179,6 @@ def main(argv):
                     batch([os.path.join(path, f) for f in os.listdir(path)])
             else:
                 print >> sys.stderr, "File Not Found: %s" % path
-                sys.exit(2)
         except KeyboardInterrupt:
             print
             break
