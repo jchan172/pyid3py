@@ -167,7 +167,7 @@ def main(argv):
         [handle(path) for path in pathes
          if os.path.isfile(path) and path.lower().endswith('.mp3')]
 
-    for path in reduce(lambda x, y: x + y, map(glob.glob, args)):
+    for path in reduce(lambda x, y: x + y, map(glob.glob, args), []):
         try:
             if os.path.isfile(path):
                 handle(path)
