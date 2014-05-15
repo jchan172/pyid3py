@@ -74,7 +74,11 @@ def hanzi2pinyin(text):
                 pinyin_seq.append(pinyin)
         else:
             pinyin_seq += (char,)
-    return pinyin_seq
+    # capitalize each pinyin
+    pinyin_seq_capitalized =[]
+    for pinyin in pinyin_seq:
+        pinyin_seq_capitalized.append(pinyin.capitalize())
+    return pinyin_seq_capitalized
 
 
 def prompt(text, cookies={}):
@@ -140,11 +144,17 @@ def main(argv):
             return
         print file
         modified = False
-        for text, sort_frame, title in ((tag.getArtist(), 'TSOP', "Artist:"),
-                                        (tag.getAlbum(),  'TSOA', "Album :"),
-                                        (tag.getTitle(),  'TSOT', "Name  :")):
+        # id3_frame is the ID3 spec for the field. Refer to the ID3v2.3 or v2.4 spec.
+        # For example, TIT2 is the song's "title" field in the ID3 tag, and TSOA is "sort artist" field.
+        for text, id3_frame, title in ((tag.getArtist(), 'TPE1', "Artist:"),
+                                       (tag.getAlbum(),  'TALB', "Album :"),
+                                       (tag.getTitle(),  'TIT2', "Name  :")):
+        # Use this for changing sort field.
+        # for text, id3_frame, title in ((tag.getArtist(), 'TSOP', "Artist:"),
+        #                                 (tag.getAlbum(),  'TSOA', "Album :"),
+        #                                 (tag.getTitle(),  'TSOT', "Name  :")):
             print ' ', title, text
-            if (force or not tag.frames[sort_frame]) and \
+            if (force or not tag.frames[id3_frame]) and \
                text and contain_cjk_char(text):
                 if preferred:
                     pinyin = ''.join(c[0] if isinstance(c, tuple) else c
@@ -152,7 +162,7 @@ def main(argv):
                 else:
                     pinyin = prompt(text, cookies)
                     try:
-                        tag.setTextFrame(sort_frame, pinyin)
+                        tag.setTextFrame(id3_frame, pinyin)
                         modified = True
                     except FrameException as err:
                         print >> sys.stderr, err.message
@@ -164,7 +174,7 @@ def main(argv):
                 except Exception:
                     processed.pop()
                     print >> sys.stderr, 'Fail to update: %s' % file
-        print
+
 
     def batch(pathes):
         [handle(path) for path in pathes
