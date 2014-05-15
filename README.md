@@ -13,12 +13,14 @@ Requirements
 
     pip install eyeD3
 
+Tested working with Python 2.7.5.
+
 Usage
 ======
 
     python pyid3py.py [OPTION] TARGET
 
-    Convert Chinese characters in mp3 ID3 to PinYin.
+    Convert Chinese characters in mp3 ID3 title, artist, and album tags to PinYin.
 
     -r, --recursive   act on directory recursively.
     -p, --preferred   don't prompt. prefer default pronunciation
@@ -27,7 +29,13 @@ Usage
     -n, --dry-run     don't actually add fileds, just show how it works.
     -h, --help        show this messge.
 
-    Note that the -f option must be used in order to replace the original Chinese characters with PinYin.
+Note that the -f option must be used in order to replace the original Chinese characters with PinYin, so the typical usage would be:
+
+    python pyid3py.py -f ~/Music/想你的夜.mp3
+
+or to go recursively through a directory:
+
+    python pyid3py.py -f -r ~/Music/
 
 Modifications
 =============

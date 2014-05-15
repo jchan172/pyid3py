@@ -77,7 +77,15 @@ def hanzi2pinyin(text):
     # capitalize each pinyin
     pinyin_seq_capitalized =[]
     for pinyin in pinyin_seq:
-        pinyin_seq_capitalized.append(pinyin.capitalize())
+        if isinstance(pinyin, tuple):
+            pinyin_list = list(pinyin)
+            capitalized_list = []
+            for option in pinyin_list:
+                capitalized_list.append(option.capitalize())
+            capitalized_tuple = tuple(capitalized_list)
+            pinyin_seq_capitalized.append(capitalized_tuple)
+        else:
+            pinyin_seq_capitalized.append(pinyin.capitalize())
     return pinyin_seq_capitalized
 
 
@@ -161,11 +169,11 @@ def main(argv):
                                      for c in hanzi2pinyin(text))
                 else:
                     pinyin = prompt(text, cookies)
-                    try:
-                        tag.setTextFrame(id3_frame, pinyin)
-                        modified = True
-                    except FrameException as err:
-                        print >> sys.stderr, err.message
+                try:
+                    tag.setTextFrame(id3_frame, pinyin)
+                    modified = True
+                except FrameException as err:
+                    print >> sys.stderr, err.message
         if modified:
             processed.append(file)
             if not dryrun:
